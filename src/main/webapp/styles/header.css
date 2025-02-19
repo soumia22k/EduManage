@@ -1,0 +1,65 @@
+/* Basic reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header styling */
+header {
+    position: relative;
+    z-index: 1;
+}
+
+/* Menu toggle button */
+.menu-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    color: white;
+}
+
+/* Sidebar styling */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -193px; /* Hide the sidebar by default */
+    background-color: #333;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+}
+
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+/* Class to show the sidebar */
+.sidebar.open {
+    left: 0;
+}
+
+.option a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.option img {
+    width: 30px;
+}

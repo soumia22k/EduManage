@@ -1,0 +1,45 @@
+body {
+    background: url('../assets/images/340366-PAPUKD-986.JPG');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+#list {
+    padding-top: 20px;
+    color: white;
+    background: rgba(23, 23, 23, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 1px 5px rgb(61, 61, 61);
+}
+
+#list h1 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.editBtn {
+    color: black;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(216, 155, 11);
+
+}
+
+.editBtn:hover {
+    background-color: rgb(202, 144, 8);
+}
+
+.deleteBtn {
+    color: black;
+    background-color: rgb(255, 255, 255);
+    border-color: red;
+}
+
+.deleteBtn:hover {
+    background-color: red;
+}
+
+main {
+    margin-left: 57px;
+}

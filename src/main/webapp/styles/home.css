@@ -1,0 +1,42 @@
+body {
+    background-image: url(../assets/images/340366-PAPUKD-986.JPG);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+#form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 657px;
+}
+
+#form1 {
+    color: white;
+    font-size: 24px;
+    background-color: rgb(177, 177, 177);
+    padding: 3%;
+    width: 60%;
+    border-radius: 10px;
+    background: rgba(23, 23, 23, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 1px 5px rgb(61, 61, 61);
+}
+
+#btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn {
+    background-color: #383fa8;
+    border-color: #1b2071;
+}
+
+.btn2 {
+    background-color: rgb(202, 144, 8);
+    border-color: rgb(174, 124, 7);
+}
