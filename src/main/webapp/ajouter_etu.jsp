@@ -13,16 +13,16 @@
 <header>
     <button class="menu-toggle">☰</button>
     <nav class="sidebar">
-        <div class="option"><a href="ajouter_etud.jsp">Add student <img src="./assets/icons/add-user (1).png" alt="add"></a></div>
+        <div class="option"><a href="/new">Add student <img src="./assets/icons/add-user (1).png" alt="add"></a></div>
         <div class="option"><a href="cours.jsp">Add cours <img src="./assets/icons/book.png" alt="add"></a></div>
-        <div class="option"><a href="etud_liste.jsp">Student list <img src="./assets/icons/friend.png" alt="add"></a></div>
+        <div class="option"><a href="/list">Student list <img src="./assets/icons/friend.png" alt="add"></a></div>
         <div class="option"><a href="cours_liste.jsp">Cours list <img src="./assets/icons/list (1).png" alt="add"></a></div>
     </nav>
 </header>
 <main>
     <section>
         <div id="form">
-            <form id="form1" action="/new" method="POST">
+            <form id="form1" action="/insert" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputNom">Nom</label>
