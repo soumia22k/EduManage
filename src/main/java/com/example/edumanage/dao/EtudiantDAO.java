@@ -15,7 +15,7 @@ public class EtudiantDAO {
     private String jdbcPassword = "123456789";
     private String jdbcDriver = "com.mysql.cj.jdbc.Driver";
 
-    private static final String INSERT_USERS_SQL = "INSERT INTO students" + " (family_name, first_name, email, birth_date) " + " VALUES (?, ?, ?, ?);";
+    private static final String INSERT_USERS_SQL = "INSERT INTO students(family_name, first_name, email, birth_date) VALUES (?, ?, ?, ?)";
 
     private static final String SELECT_USER_BY_ID = "select id,family_name,first_name,email,birth_Date from Students where id =?;";
     private static final String SELECT_ALL_USERS = "select * from Students;";
@@ -78,6 +78,18 @@ public class EtudiantDAO {
             printSQLException(e);
         }
         return etudiant;
+    }
+
+    public boolean deleteEtudiant(int id) {
+        boolean flag;
+        try (Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
+            statement.setInt(1, id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return flag;
     }
 
     private void printSQLException(SQLException ex) {

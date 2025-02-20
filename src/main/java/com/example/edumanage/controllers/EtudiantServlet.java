@@ -44,7 +44,7 @@ public class EtudiantServlet extends HttpServlet {
                     listEtudiant(request, response);
                     break;
                 case "/delete":
-
+                    deleteEtudiant(request, response);
                     break;
                 case "/edit":
 
@@ -53,7 +53,7 @@ public class EtudiantServlet extends HttpServlet {
 
                     break;
                 default:
-
+                    listEtudiant(request, response);
                     break;
             }
         } catch (Exception ex) {
@@ -84,5 +84,11 @@ public class EtudiantServlet extends HttpServlet {
         request.setAttribute("etudiantList", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("liste_etu.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void deleteEtudiant(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        etudiantDAO.deleteEtudiant(id);
+        response.sendRedirect("list");
     }
 }

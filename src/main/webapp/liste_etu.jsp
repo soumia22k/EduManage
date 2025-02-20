@@ -54,7 +54,7 @@
 <%--                    <td>${etudiant.courses}</td>--%>
                         <td>
                             <a href="./modifier.jsp?id=${etudiant.id}"><button type="submit" class="btn btn-primary editBtn">Edit</button></a>
-                            <a href="./deleteEtudiant?id=${etudiant.id}"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
+                            <a href="/delete?id=${etudiant.id}"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
                         </td>
                     </tr>
                     <%
