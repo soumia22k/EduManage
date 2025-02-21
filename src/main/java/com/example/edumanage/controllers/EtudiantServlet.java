@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/")
+@WebServlet("/etu")
 public class EtudiantServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private EtudiantDAO etudiantDAO;
@@ -30,30 +30,30 @@ public class EtudiantServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getServletPath();
+        String action = request.getParameter("action");
 
         try {
             switch (action) {
-                case "/new":
+                case "new":
                     showNewForm(request, response);
                     break;
-                case "/insert":
+                case "insert":
                     insertEtudiant(request, response);
                     break;
-                case "/list":
+                case "list":
                     listEtudiant(request, response);
                     break;
-                case "/delete":
+                case "delete":
                     deleteEtudiant(request, response);
                     break;
-                case "/edit":
-
+                case "edit_form":
+                    showEditForm(request, response);
                     break;
-                case "/update":
-
+                case "update":
+                    updateEtudiant(request, response);
                     break;
                 default:
-                    listEtudiant(request, response);
+//                    showNewForm(request, response);
                     break;
             }
         } catch (Exception ex) {
@@ -75,7 +75,7 @@ public class EtudiantServlet extends HttpServlet {
         Etudiant newEtudiant = new Etudiant(family_name, first_name, email, birth_date);
         etudiantDAO.addEtudiant(newEtudiant);
 
-        response.sendRedirect("list");
+        response.sendRedirect("/etu?action=list");
     }
 
     private void listEtudiant(HttpServletRequest request, HttpServletResponse response)
@@ -86,9 +86,29 @@ public class EtudiantServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Etudiant existingEtudiant = etudiantDAO.selectEtudiantById(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("modifier_etu.jsp");
+        request.setAttribute("etudiant", existingEtudiant);
+        dispatcher.forward(request, response);
+    }
+
+    private void updateEtudiant(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String family_name = request.getParameter("family_name");
+        String first_name = request.getParameter("first_name");
+        String email = request.getParameter("email");
+        String birth_date = request.getParameter("birth_date");
+
+        Etudiant etudiant = new Etudiant(id, family_name, first_name, email, birth_date);
+        etudiantDAO.updateEtudiant(etudiant);
+        response.sendRedirect("/etu?action=list");
+    }
+
     private void deleteEtudiant(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         etudiantDAO.deleteEtudiant(id);
-        response.sendRedirect("list");
+        response.sendRedirect("etu?action=list");
     }
 }

@@ -15,9 +15,9 @@
 <header>
     <button class="menu-toggle">☰</button>
     <nav class="sidebar">
-        <div class="option"><a href="/new">Add student <img src="./assets/icons/add-user (1).png" alt="add"></a></div>
+        <div class="option"><a href="etu?action=new">Add student <img src="./assets/icons/add-user (1).png" alt="add"></a></div>
         <div class="option"><a href="cours.jsp">Add cours <img src="./assets/icons/book.png" alt="add"></a></div>
-        <div class="option"><a href="/list">Student list <img src="./assets/icons/friend.png" alt="add"></a></div>
+        <div class="option"><a href="etu?action=list">Student list <img src="./assets/icons/friend.png" alt="add"></a></div>
         <div class="option"><a href="cours_liste.jsp">Cours list <img src="./assets/icons/list (1).png" alt="add"></a></div>
     </nav>
 </header>
@@ -53,8 +53,8 @@
                         <td>empty</td>
 <%--                    <td>${etudiant.courses}</td>--%>
                         <td>
-                            <a href="./modifier.jsp?id=${etudiant.id}"><button type="submit" class="btn btn-primary editBtn">Edit</button></a>
-                            <a href="/delete?id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
+                            <a href="etu?action=edit_form&&id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary editBtn">Edit</button></a>
+                            <a href="etu?action=delete&&id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
                         </td>
                     </tr>
                     <%

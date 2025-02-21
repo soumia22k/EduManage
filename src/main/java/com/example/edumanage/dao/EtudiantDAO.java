@@ -38,6 +38,26 @@ public class EtudiantDAO {
         return connection;
     }
 
+    public Etudiant selectEtudiantById(int id) {
+        Etudiant etudiant = null;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                String family_name = rs.getString("family_name");
+                String first_name = rs.getString("first_name");
+                String email = rs.getString("email");
+                String birth_date = rs.getString("birth_date");
+                etudiant = new Etudiant(id, family_name, first_name, email, birth_date);
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return etudiant;
+    }
+
     public void addEtudiant(Etudiant etudiant) {
         System.out.println(INSERT_USERS_SQL);
 
@@ -78,6 +98,23 @@ public class EtudiantDAO {
             printSQLException(e);
         }
         return etudiant;
+    }
+
+    public boolean updateEtudiant(Etudiant etudiant) {
+        boolean rowUpdated = false;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USERS_SQL)) {
+            preparedStatement.setString(1, etudiant.getFamily_name());
+            preparedStatement.setString(2, etudiant.getFirst_name());
+            preparedStatement.setString(3, etudiant.getEmail());
+            preparedStatement.setDate(4, java.sql.Date.valueOf(etudiant.getBirth_date()));
+            preparedStatement.setInt(5, etudiant.getId());
+
+            rowUpdated = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return rowUpdated;
     }
 
     public boolean deleteEtudiant(int id) {
