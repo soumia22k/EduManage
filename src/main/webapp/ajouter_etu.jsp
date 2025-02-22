@@ -14,15 +14,16 @@
     <button class="menu-toggle">☰</button>
     <nav class="sidebar">
         <div class="option"><a href="etu?action=new">Add student <img src="./assets/icons/add-user (1).png" alt="add"></a></div>
-        <div class="option"><a href="/">Add cours <img src="./assets/icons/book.png" alt="add"></a></div>
+        <div class="option"><a href="cours?action=add">Add cours <img src="./assets/icons/book.png" alt="add"></a></div>
         <div class="option"><a href="etu?action=list">Student list <img src="./assets/icons/friend.png" alt="add"></a></div>
-        <div class="option"><a href="/test">Cours list <img src="./assets/icons/list (1).png" alt="add"></a></div>
+        <div class="option"><a href="cours">Cours list <img src="./assets/icons/list (1).png" alt="add"></a></div>
     </nav>
 </header>
 <main>
     <section>
         <div id="form">
             <form id="form1" action="etu?action=insert" method="post">
+                <h2>Ajouter un Nouveau Etudiant</h2>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputNom">Nom</label>

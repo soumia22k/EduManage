@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/CoursServlet")
+@WebServlet("/cours")
 public class CoursServlet extends HttpServlet {
     private CoursDAO coursDAO;
 
@@ -63,27 +63,27 @@ public class CoursServlet extends HttpServlet {
     }
 
     private void addCours(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String nom = request.getParameter("nom");
+        String title = request.getParameter("title");
         String description = request.getParameter("description");
 
-        Cours newCours = new Cours(0, nom, description);
+        Cours newCours = new Cours(0, title, description);
         coursDAO.ajouterCours(newCours);
-        response.sendRedirect("CoursServlet");
+        response.sendRedirect("cours");
     }
 
     private void updateCours(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        String nom = request.getParameter("nom");
+        String title = request.getParameter("title");
         String description = request.getParameter("description");
 
-        Cours updatedCours = new Cours(id, nom, description);
+        Cours updatedCours = new Cours(id, title, description);
         coursDAO.modifierCours(updatedCours);
-        response.sendRedirect("CoursServlet");
+        response.sendRedirect("cours");
     }
 
     private void deleteCours(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         coursDAO.supprimerCours(id);
-        response.sendRedirect("CoursServlet");
+        response.sendRedirect("cours");
     }
 }

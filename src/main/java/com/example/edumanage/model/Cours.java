@@ -1,13 +1,13 @@
 package com.example.edumanage.model;
 
 public class Cours {
-    int id;
-    String name;
-    String description;
+    private int id;
+    private String title;
+    private String description;
 
-    public Cours(int id, String name, String description) {
+    public Cours(int id, String title, String description) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.description = description;
     }
 
@@ -19,12 +19,12 @@ public class Cours {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {

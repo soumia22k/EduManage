@@ -8,37 +8,18 @@ import java.util.List;
 public class CoursDAO {
     private Connection connection;
 
-
     public CoursDAO() {
         try {
-
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/edumanage", "root", "");
-
-            // Create the 'Cours' table if it doesn't exist
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS Cours ("
-                    + "id INT AUTO_INCREMENT PRIMARY KEY, "
-                    + "nom VARCHAR(255) NOT NULL, "
-                    + "description VARCHAR(255) NOT NULL"
-                    + ")";
-
-            try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate(createTableSQL);
-                System.out.println("Table 'Cours' is ready.");
-            }
-
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/EduManage", "root", "123456789");
         } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Database connection or table creation error: " + e.getMessage());
-            e.printStackTrace();
+            throw new RuntimeException("Failed to connect to the database", e);
         }
     }
 
-
     public List<Cours> getAllCours() {
         List<Cours> listCours = new ArrayList<>();
-        String query = "SELECT * FROM Cours";
+        String query = "SELECT * FROM Courses";
 
         try (PreparedStatement ps = connection.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
@@ -46,7 +27,7 @@ public class CoursDAO {
             while (rs.next()) {
                 listCours.add(new Cours(
                         rs.getInt("id"),
-                        rs.getString("nom"),
+                        rs.getString("title"),
                         rs.getString("description")
                 ));
             }
@@ -59,10 +40,10 @@ public class CoursDAO {
     }
 
     public void ajouterCours(Cours cours) {
-        String query = "INSERT INTO Cours (nom, description) VALUES (?, ?)";
+        String query = "INSERT INTO Courses (title, description) VALUES (?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, cours.getName());
+            ps.setString(1, cours.getTitle());
             ps.setString(2, cours.getDescription());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -71,9 +52,8 @@ public class CoursDAO {
         }
     }
 
-
     public Cours getCoursById(int id) {
-        String query = "SELECT * FROM Cours WHERE id = ?";
+        String query = "SELECT * FROM Courses WHERE id = ?";
         Cours cours = null;
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -82,7 +62,7 @@ public class CoursDAO {
                 if (rs.next()) {
                     cours = new Cours(
                             rs.getInt("id"),
-                            rs.getString("nom"),
+                            rs.getString("title"),
                             rs.getString("description")
                     );
                 }
@@ -95,12 +75,11 @@ public class CoursDAO {
         return cours;
     }
 
-
     public void modifierCours(Cours cours) {
-        String query = "UPDATE Cours SET nom = ?, description = ? WHERE id = ?";
+        String query = "UPDATE Courses SET title = ?, description = ? WHERE id = ?"; // Use 'title' instead of 'nom'
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, cours.getName());
+            ps.setString(1, cours.getTitle()); // Use 'title' instead of 'nom'
             ps.setString(2, cours.getDescription());
             ps.setInt(3, cours.getId());
             ps.executeUpdate();
@@ -110,9 +89,8 @@ public class CoursDAO {
         }
     }
 
-
     public void supprimerCours(int id) {
-        String query = "DELETE FROM Cours WHERE id = ?";
+        String query = "DELETE FROM Courses WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, id);
@@ -122,7 +100,6 @@ public class CoursDAO {
             e.printStackTrace();
         }
     }
-
 
     public void closeConnection() {
         if (connection != null) {
