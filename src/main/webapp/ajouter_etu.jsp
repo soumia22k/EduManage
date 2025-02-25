@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.example.edumanage.model.Cours" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.edumanage.dao.CoursDAO" %>
+<%
+    CoursDAO coursDAO = new CoursDAO();
+    List<Cours> allCourses = coursDAO.getAllCours();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,23 +46,25 @@
                     <input type="Email" class="form-control" id="inputEmail" name="email" placeholder="Email@exemple.com">
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label for="Date">Date de naissance</label>
                         <input type="date" class="form-control" id="Date" name="birth_date" placeholder="">
                     </div>
-                    <!-- <div class="mb-3">
-                      <label for="multiSelect" class="form-label">Select Options</label>
-                      <select class="form-select" id="multiSelect" multiple>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                          <option value="4">Option 4</option>
-                          <option value="5">Option 5</option>
-                      </select>
-                    </div> -->
+                </div>
+                <div class="form-group">
+                    <label for="courses">Cours</label>
+                    <select class="form-control" id="courses" name="courses" multiple>
+                        <%
+                            for (Cours course : allCourses) {
+                        %>
+                        <option value="<%= course.getId() %>"><%= course.getTitle() %></option>
+                        <%
+                            }
+                        %>
+                    </select>
                 </div>
                 <div id="btn">
-                    <button href="etu?action=list" type="submit" class="btn btn-primary">Ajouter</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
                 </div>
             </form>
         </div>

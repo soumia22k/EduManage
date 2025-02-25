@@ -1,6 +1,8 @@
 package com.example.edumanage.controllers;
 
+import com.example.edumanage.dao.CoursDAO;
 import com.example.edumanage.dao.EtudiantDAO;
+import com.example.edumanage.model.Cours;
 import com.example.edumanage.model.Etudiant;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -62,6 +64,13 @@ public class EtudiantServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        CoursDAO coursDAO = new CoursDAO();
+        List<Cours> allCourses = coursDAO.getAllCours();
+
+        System.out.println("Number of courses fetched: " + allCourses.size());
+
+        request.setAttribute("allCourses", allCourses);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("ajouter_etu.jsp");
         dispatcher.forward(request, response);
     }
@@ -74,6 +83,15 @@ public class EtudiantServlet extends HttpServlet {
 
         Etudiant newEtudiant = new Etudiant(family_name, first_name, email, birth_date);
         etudiantDAO.addEtudiant(newEtudiant);
+
+        int student_id = etudiantDAO.getLastInsertedId();
+
+        String[] courseIds = request.getParameterValues("courses");
+        if (courseIds != null) {
+            for (String course_id : courseIds) {
+                etudiantDAO.assignCourseToStudent(student_id, Integer.parseInt(course_id));
+            }
+        }
 
         response.sendRedirect("/etu?action=list");
     }
@@ -89,6 +107,14 @@ public class EtudiantServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Etudiant existingEtudiant = etudiantDAO.selectEtudiantById(id);
+
+        CoursDAO coursDAO = new CoursDAO();
+        List<Cours> allCourses = coursDAO.getAllCours();
+        request.setAttribute("allCourses", allCourses);
+
+        List<Integer> etudiantCourses = etudiantDAO.getCoursesForStudent(id);
+        request.setAttribute("etudiantCourses", etudiantCourses);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("modifier_etu.jsp");
         request.setAttribute("etudiant", existingEtudiant);
         dispatcher.forward(request, response);
@@ -103,6 +129,16 @@ public class EtudiantServlet extends HttpServlet {
 
         Etudiant etudiant = new Etudiant(id, family_name, first_name, email, birth_date);
         etudiantDAO.updateEtudiant(etudiant);
+
+        String[] courseIds = request.getParameterValues("courses");
+        if (courseIds != null) {
+            etudiantDAO.removeAllCoursesFromStudent(id);
+
+            for (String courseId : courseIds) {
+                etudiantDAO.assignCourseToStudent(id, Integer.parseInt(courseId));
+            }
+        }
+
         response.sendRedirect("/etu?action=list");
     }
 

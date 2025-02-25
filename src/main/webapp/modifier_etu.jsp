@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.edumanage.model.Etudiant" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.edumanage.dao.CoursDAO" %>
+<%@ page import="com.example.edumanage.model.Cours" %>
+<%
+    Etudiant etudiant = (Etudiant) request.getAttribute("etudiant");
+    List<Integer> etudiantCourses = (List<Integer>) request.getAttribute("etudiantCourses");
+    CoursDAO coursDAO = new CoursDAO();
+    List<Cours> allCourses = coursDAO.getAllCours();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,26 +33,38 @@
     <section>
         <div id="form">
             <form id="form1" action="etu?action=update" method="post">
-                <input type="hidden" name="id" value="${etudiant.id}">
+                <input type="hidden" name="id" value="<%= etudiant.getId() %>">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputNom">Nom</label>
-                        <input type="text" class="form-control" id="inputNom" name="family_name" value="${etudiant.family_name}" placeholder="Nom">
+                        <input type="text" class="form-control" id="inputNom" name="family_name" value="<%= etudiant.getFamily_name() %>" placeholder="Nom">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPrenom">Prénom</label>
-                        <input type="text" class="form-control" id="inputPrenom" name="first_name" value="${etudiant.first_name}" placeholder="Prénom">
+                        <input type="text" class="form-control" id="inputPrenom" name="first_name" value="<%= etudiant.getFirst_name() %>" placeholder="Prénom">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" name="email" value="${etudiant.email}" placeholder="Email@exemple.com">
+                    <input type="email" class="form-control" id="inputEmail" name="email" value="<%= etudiant.getEmail() %>" placeholder="Email@exemple.com">
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label for="Date">Date de naissance</label>
-                        <input type="date" class="form-control" id="Date" name="birth_date" value="${etudiant.birth_date}" placeholder="">
+                        <input type="date" class="form-control" id="Date" name="birth_date" value="<%= etudiant.getBirth_date() %>" placeholder="">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="courses">Cours</label>
+                    <select class="form-control" id="courses" name="courses" multiple>
+                        <%
+                            for (Cours course : allCourses) {
+                        %>
+                        <option value="<%= course.getId() %>" <%= etudiantCourses.contains(course.getId()) ? "selected" : "" %>><%= course.getTitle() %></option>
+                        <%
+                            }
+                        %>
+                    </select>
                 </div>
                 <div id="btn">
                     <button type="submit" class="btn btn-primary">Modifier</button>

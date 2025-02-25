@@ -19,7 +19,7 @@ public class CoursDAO {
 
     public List<Cours> getAllCours() {
         List<Cours> listCours = new ArrayList<>();
-        String query = "SELECT * FROM Courses";
+        String query = "SELECT * FROM courses";
 
         try (PreparedStatement ps = connection.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
@@ -40,7 +40,7 @@ public class CoursDAO {
     }
 
     public void ajouterCours(Cours cours) {
-        String query = "INSERT INTO Courses (title, description) VALUES (?, ?)";
+        String query = "INSERT INTO courses (title, description) VALUES (?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, cours.getTitle());
@@ -53,7 +53,7 @@ public class CoursDAO {
     }
 
     public Cours getCoursById(int id) {
-        String query = "SELECT * FROM Courses WHERE id = ?";
+        String query = "SELECT * FROM courses WHERE id = ?";
         Cours cours = null;
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -76,7 +76,7 @@ public class CoursDAO {
     }
 
     public void modifierCours(Cours cours) {
-        String query = "UPDATE Courses SET title = ?, description = ? WHERE id = ?"; // Use 'title' instead of 'nom'
+        String query = "UPDATE courses SET title = ?, description = ? WHERE id = ?"; // Use 'title' instead of 'nom'
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, cours.getTitle()); // Use 'title' instead of 'nom'
@@ -90,7 +90,7 @@ public class CoursDAO {
     }
 
     public void supprimerCours(int id) {
-        String query = "DELETE FROM Courses WHERE id = ?";
+        String query = "DELETE FROM courses WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, id);

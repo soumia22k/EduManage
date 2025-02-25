@@ -129,6 +129,73 @@ public class EtudiantDAO {
         return flag;
     }
 
+    public void assignCourseToStudent(int student_id, int course_id) {
+        String sql = "INSERT INTO enrollments (student_id, course_id) VALUES (?, ?)";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, student_id);
+            preparedStatement.setInt(2, course_id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    public List<Integer> getCoursesForStudent(int student_id) {
+        List<Integer> courseIds = new ArrayList<>();
+        String sql = "SELECT course_id FROM enrollments WHERE student_id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, student_id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                courseIds.add(rs.getInt("course_id"));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return courseIds;
+    }
+
+    public void removeCourseFromStudent(int studentId, int courseId) {
+        String sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, studentId);
+            preparedStatement.setInt(2, courseId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    public void removeAllCoursesFromStudent(int studentId) {
+        String sql = "DELETE FROM enrollments WHERE student_id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, studentId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    public int getLastInsertedId() {
+        int id = -1;
+        String sql = "SELECT MAX(id) FROM students;";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet rs = preparedStatement.executeQuery()) {
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        System.out.println("student id : "+id);
+        return id;
+    }
+
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {

@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.example.edumanage.model.Etudiant" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.edumanage.dao.EtudiantDAO" %>
+<%@ page import="com.example.edumanage.dao.CoursDAO" %>
+<%@ page import="com.example.edumanage.model.Cours" %>
+<%
+    EtudiantDAO etudiantDAO = new EtudiantDAO();
+    List<Etudiant> etudiantList = etudiantDAO.selectAllEtudiant();
+    CoursDAO coursDAO = new CoursDAO();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/header.css">
     <link rel="stylesheet" href="./styles/etud_liste.css">
-    <title>Ajouter</title>
+    <title>Liste des Étudiants</title>
 </head>
 <body>
 <header>
@@ -40,9 +48,16 @@
                     </thead>
                     <tbody>
                     <%
-                        List<Etudiant> etudiantList = (List<Etudiant>) request.getAttribute("etudiantList");
-
                         for (Etudiant etudiant : etudiantList) {
+                            List<Integer> courseIds = etudiantDAO.getCoursesForStudent(etudiant.getId());
+                            StringBuilder courses = new StringBuilder();
+                            for (Integer courseId : courseIds) {
+                                Cours course = coursDAO.getCoursById(courseId);
+                                courses.append(course.getTitle()).append(", ");
+                            }
+                            if (courses.length() > 0) {
+                                courses.setLength(courses.length() - 2);
+                            }
                     %>
                     <tr>
                         <td><%= etudiant.getId() %></td>
@@ -50,15 +65,13 @@
                         <td><%= etudiant.getFirst_name() %></td>
                         <td><%= etudiant.getEmail() %></td>
                         <td><%= etudiant.getBirth_date() %></td>
-                        <td>empty</td>
-<%--                    <td>${etudiant.courses}</td>--%>
+                        <td><%= courses.toString() %></td>
                         <td>
                             <a href="etu?action=edit_form&&id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary editBtn">Edit</button></a>
                             <a href="etu?action=delete&&id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
                         </td>
                     </tr>
                     <%
-
                         }
                     %>
                     </tbody>
