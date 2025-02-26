@@ -27,6 +27,7 @@
         <div class="option"><a href="cours?action=add">Add cours <img src="./assets/icons/book.png" alt="add"></a></div>
         <div class="option"><a href="etu?action=list">Student list <img src="./assets/icons/friend.png" alt="add"></a></div>
         <div class="option"><a href="cours">Cours list <img src="./assets/icons/list (1).png" alt="add"></a></div>
+        <div class="option"><a href="log_in.jsp">Déconnecter<img src="./assets/icons/log_out.png" alt="add"></a></div>
     </nav>
 </header>
 <main>
@@ -68,7 +69,7 @@
                         <td><%= courses.toString() %></td>
                         <td>
                             <a href="etu?action=edit_form&&id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary editBtn">Edit</button></a>
-                            <a href="etu?action=delete&&id=<%= etudiant.getId() %>"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
+                            <a href="etu?action=delete&&id=<%= etudiant.getId() %>" onclick="return confirm('Voulez-vous vraiment supprimer ce cours ?')"><button type="submit" class="btn btn-primary deleteBtn">Delete</button></a>
                         </td>
                     </tr>
                     <%

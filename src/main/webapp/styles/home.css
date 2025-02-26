@@ -25,6 +25,18 @@ body {
     box-shadow: 0px 1px 5px rgb(61, 61, 61);
 }
 
+#loginForm {
+    color: white;
+    font-size: 30px;
+    background-color: rgb(177, 177, 177);
+    padding: 2%;
+    width: 30%;
+    border-radius: 10px;
+    background: rgba(23, 23, 23, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 1px 5px rgb(61, 61, 61);
+}
+
 #btn {
     display: flex;
     justify-content: center;
@@ -34,9 +46,14 @@ body {
 .btn {
     background-color: #383fa8;
     border-color: #1b2071;
+    border: none    ;
 }
 
 .btn2 {
     background-color: rgb(202, 144, 8);
     border-color: rgb(174, 124, 7);
+}
+
+.loginBtn:hover {
+    background-color: rgb(135, 182, 64);
 }
