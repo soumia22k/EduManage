@@ -1,5 +1,7 @@
 package com.example.edumanage.controllers;
 
+import com.example.edumanage.dao.UserDAO;
+import com.example.edumanage.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,21 +12,37 @@ import java.io.IOException;
 
 @WebServlet({"/", "/login"})
 public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private UserDAO userDAO;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/log_in.jsp").forward(req, resp);
+    public void init() {
+        userDAO = new UserDAO();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/log_in.jsp").forward(request, response);
+    }
 
-        if ("admin".equals(username) && "123456".equals(password)) {
-            resp.sendRedirect("/etu?action=new");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        User user = userDAO.checkLogin(username, password);
+
+//        if ("admin".equals(username) && "123456".equals(password)) {
+//            resp.sendRedirect("/etu?action=new");
+//        } else {
+//            resp.sendRedirect("/login");
+//        }
+
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect("/etu?action=new");
         } else {
-            resp.sendRedirect("/login");
+            request.setAttribute("errorMessage", "Invalid username or password");
+            response.sendRedirect("/login");
         }
     }
 }
