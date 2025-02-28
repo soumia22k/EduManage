@@ -30,19 +30,32 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (isValidUser(username, password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("isLoggedIn", true);
+//        if (isValidUser(username, password)) {
+//            HttpSession session = request.getSession();
+//            session.setAttribute("isLoggedIn", true);
+//
+//            response.sendRedirect(request.getContextPath() + "/etu?action=new");
+//        } else {
+//            response.sendRedirect(request.getContextPath() + "/login?error=1");
+//        }
 
-            response.sendRedirect(request.getContextPath() + "/etu?action=new");
+        User user = userDAO.checkLogin(username, password);
+
+        if (user != null) {
+            request.getSession().setAttribute("isLoggedIn", true);
+            response.sendRedirect("/etu?action=new");
         } else {
-            response.sendRedirect(request.getContextPath() + "/login?error=1");
+            request.setAttribute("errorMessage", "Invalid username or password");
+            response.sendRedirect("/login");
         }
     }
 
-    private boolean isValidUser(String username, String password) {
-        return true;
+
     }
+
+//    private boolean isValidUser(String username, String password) {
+//        return true;
+//    }
 
 //        User user = userDAO.checkLogin(username, password);
 
@@ -60,4 +73,4 @@ public class LoginServlet extends HttpServlet {
 //            response.sendRedirect("/login");
 //        }
 //    }
-}
+
