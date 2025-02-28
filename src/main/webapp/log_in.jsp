@@ -12,7 +12,7 @@
 <main>
     <section>
         <div id="form">
-            <form id="loginForm" action="/login" method="post">
+            <form id="loginForm" action="login" method="post">
                 <!-- <h2>Se Connecter</h2> -->
                 <div>
                     <div class="form-group col-md-12">
